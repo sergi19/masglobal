@@ -6,23 +6,11 @@ import com.test.masglobal.demo.dto.EmployeeDTO;
 import com.test.masglobal.demo.dto.HourlySalaryEmployeeDTO;
 import com.test.masglobal.demo.dto.MonthlySalaryEmployeeDTO;
 import com.test.masglobal.demo.util.Constants;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EmployeeFactory {
 	
-	@Value("${app.hourlyContract}")
-	private String hourlyContractType;
-	
-	@Value("${app.monthlyContract}")
-	private String monthlyContractType;
-
-	public String getHourlyContractType() {
-		return hourlyContractType;
-	}
-
-	public String getMonthlyContractType() {
-		return monthlyContractType;
-	}
-
 	public EmployeeDTO getEmployees(EmployeeDTO employeeDTO) {
 		switch (employeeDTO.getContractTypeName()) {
 			case Constants.HOURLY_CONTRACT_TYPE:

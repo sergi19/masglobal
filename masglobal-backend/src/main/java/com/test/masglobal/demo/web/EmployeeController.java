@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.test.masglobal.demo.dto.EmployeeDTO;
 import com.test.masglobal.demo.dto.ResponseDTO;
 import com.test.masglobal.demo.service.EmployeeService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("/employee")
@@ -23,11 +24,13 @@ public class EmployeeController {
 		this.employeeService = employeeService;
 	}
 	
+        @CrossOrigin(value = "http://localhost:4200")
 	@GetMapping("/getAllEmployees")
 	public List<EmployeeDTO> getInfoEmployees() {
 		return employeeService.getAllEmployees();
 	}
 	
+        @CrossOrigin(value = "http://localhost:4200")
 	@GetMapping("/getEmployeeById/{id}")
 	public List<EmployeeDTO> getInfoEmployees(@PathVariable Long id) {
 		return employeeService.getEmployeeById(id);

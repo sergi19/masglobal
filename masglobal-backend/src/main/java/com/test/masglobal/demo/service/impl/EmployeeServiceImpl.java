@@ -8,28 +8,41 @@ import static java.util.stream.Collectors.toList;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.test.masglobal.demo.dto.EmployeeDTO;
 import com.test.masglobal.demo.factory.EmployeeFactory;
 import com.test.masglobal.demo.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Bean;
 
-@Repository
+@Service
 public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Value("${app.url}")
 	private String url;
+        
+        @Autowired
+        EmployeeFactory factory;
+        
+        @Autowired
+        RestTemplate restTemplate;
+        
+        @Bean
+        public RestTemplate restTemplate(RestTemplateBuilder builder) {
+            return builder.build();
+        }
 	
 	private List<EmployeeDTO> makeRequestInfoEmployees() {
-		return Arrays.asList(new RestTemplate().getForObject(url, EmployeeDTO[].class));
+		return Arrays.asList(restTemplate.getForObject(url, EmployeeDTO[].class));
 	}
 	
 	private EmployeeDTO calculateAnualSalary(EmployeeDTO employeeDTO) {
-		EmployeeFactory factory = new EmployeeFactory();
 		return factory.getEmployees(employeeDTO);
 	}
 	
-
 	@Override
 	public List<EmployeeDTO> getAllEmployees() {
 		return makeRequestInfoEmployees().stream()
